@@ -1,0 +1,705 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ═══════════════════════════════════════════════════
+   FUI DESIGN TOKENS — GOD'S EYE TACTICAL INTERFACE
+   ═══════════════════════════════════════════════════ */
+
+:root {
+    /* Primary FUI accent — yellow-green (ref image color) */
+    --fui-primary:        #aaff00;
+    --fui-primary-dim:    rgba(170, 255, 0, 0.12);
+    --fui-primary-mid:    rgba(170, 255, 0, 0.35);
+    --fui-primary-glow:   0 0 16px rgba(170, 255, 0, 0.55), 0 0 40px rgba(170, 255, 0, 0.15);
+    --fui-primary-inset:  inset 0 0 20px rgba(170, 255, 0, 0.08);
+
+    /* Alert / critical */
+    --fui-alert:          #ff1a1a;
+    --fui-alert-dim:      rgba(255, 26, 26, 0.15);
+    --fui-alert-glow:     0 0 12px rgba(255, 26, 26, 0.6);
+
+    /* Warning */
+    --fui-warn:           #ffaa00;
+
+    /* Backgrounds */
+    --fui-bg:             #06080a;
+    --fui-panel:          rgba(4, 6, 8, 0.88);
+    --fui-panel-lighter:  rgba(10, 15, 10, 0.75);
+
+    /* Borders */
+    --fui-border:         rgba(170, 255, 0, 0.30);
+    --fui-border-bright:  rgba(170, 255, 0, 0.70);
+    --fui-border-dim:     rgba(170, 255, 0, 0.12);
+
+    /* Text */
+    --fui-text:           rgba(200, 255, 120, 0.90);
+    --fui-text-dim:       rgba(170, 255, 0, 0.45);
+    --fui-text-white:     rgba(240, 255, 230, 0.88);
+    --fui-text-muted:     rgba(170, 255, 0, 0.28);
+
+    /* Legacy compat */
+    --color-primary:      #aaff00;
+    --color-primary-dim:  rgba(170, 255, 0, 0.15);
+    --color-background:   #06080a;
+    --color-surface:      #0d110d;
+    --color-accent:       #ff1a1a;
+    --color-success:      #aaff00;
+    --color-warning:      #ffaa00;
+}
+
+@theme {
+    --color-primary:     #aaff00;
+    --color-primary-dim: rgba(170, 255, 0, 0.15);
+    --color-background:  #06080a;
+    --color-surface:     #0d110d;
+    --color-accent:      #ff1a1a;
+    --color-success:     #aaff00;
+    --color-warning:     #ffaa00;
+    --font-mono:         "Share Tech Mono", monospace;
+    --font-hud:          "Orbitron", sans-serif;
+
+    /* ── Keyframes ── */
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+    }
+    @keyframes data-stream {
+        0%   { background-position: 0% 0%; }
+        100% { background-position: 0% 100%; }
+    }
+    @keyframes pulse-soft {
+        0%, 100% { opacity: 0.8; }
+        50%       { opacity: 0.35; }
+    }
+    @keyframes scanbar {
+        0%   { transform: translateX(-100%); opacity: 0; }
+        20%  { opacity: 1; }
+        80%  { opacity: 1; }
+        100% { transform: translateX(100%); opacity: 0; }
+    }
+    @keyframes scanbar-v {
+        0%   { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+    @keyframes border-pulse {
+        0%, 100% { box-shadow: 0 0 8px rgba(170,255,0,0.3), inset 0 0 8px rgba(170,255,0,0.05); }
+        50%       { box-shadow: 0 0 20px rgba(170,255,0,0.6), inset 0 0 12px rgba(170,255,0,0.12); }
+    }
+    @keyframes depth-float {
+        0%, 100% { transform: perspective(1000px) rotateX(-2deg) translateY(0px); }
+        50%       { transform: perspective(1000px) rotateX(-2deg) translateY(-3px); }
+    }
+    @keyframes count-up {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ripple {
+        0%   { transform: scale(0); opacity: 0.6; }
+        100% { transform: scale(4); opacity: 0; }
+    }
+    @keyframes matrix-rain {
+        0%   { transform: translateY(-100%); opacity: 1; }
+        90%  { opacity: 1; }
+        100% { transform: translateY(1000%); opacity: 0; }
+    }
+    @keyframes hud-glitch {
+        0%  { clip-path: inset(10% 0 80% 0); transform: translate(-2px); }
+        33% { clip-path: inset(60% 0 20% 0); transform: translate(2px); }
+        66% { clip-path: inset(30% 0 50% 0); transform: translate(-1px); }
+        100%{ clip-path: inset(0); transform: translate(0); }
+    }
+    @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+    @keyframes spin-reverse {
+        from { transform: rotate(360deg); }
+        to   { transform: rotate(0deg); }
+    }
+    @keyframes bar-fill {
+        from { width: 0%; }
+        to   { width: var(--bar-width, 70%); }
+    }
+    @keyframes border-corner-glow {
+        0%, 100% { border-color: rgba(170,255,0,0.4); }
+        50%       { border-color: rgba(170,255,0,0.9); }
+    }
+    @keyframes data-tick {
+        0%, 90%, 100% { opacity: 1;  }
+        95%            { opacity: 0.2; }
+    }
+    @keyframes sweep-right {
+        0%   { width: 0%; }
+        100% { width: 100%; }
+    }
+    @keyframes radar-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+    @keyframes flicker-fast {
+        0%   { opacity: 0.98; }
+        5%   { opacity: 0.92; }
+        10%  { opacity: 0.97; }
+        20%  { opacity: 0.99; }
+        30%  { opacity: 0.94; }
+        50%  { opacity: 0.97; }
+        100% { opacity: 0.99; }
+    }
+
+    --animate-blink:        blink 1s step-end infinite;
+    --animate-stream:       data-stream 20s linear infinite;
+    --animate-pulse-soft:   pulse-soft 3s ease-in-out infinite;
+    --animate-scanbar:      scanbar 3s ease-in-out infinite;
+    --animate-scanbar-v:    scanbar-v 6s linear infinite;
+    --animate-border-pulse: border-pulse 2s ease-in-out infinite;
+    --animate-depth-float:  depth-float 6s ease-in-out infinite;
+    --animate-count-up:     count-up 0.6s ease-out both;
+    --animate-spin-slow:    spin-slow 8s linear infinite;
+    --animate-spin-reverse: spin-reverse 12s linear infinite;
+    --animate-radar:        radar-spin 4s linear infinite;
+    --animate-glitch:       hud-glitch 0.2s steps(1) 4;
+    --animate-flicker:      flicker-fast 0.15s infinite;
+    --animate-data-tick:    data-tick 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   COMPONENT CLASSES
+   ═══════════════════════════════════════════════════ */
+@layer components {
+
+    /* ── FUI Panel: depth glass with yellow-green border ── */
+    .fui-panel {
+        background: var(--fui-panel);
+        border: 1px solid var(--fui-border);
+        box-shadow: var(--fui-primary-inset),
+                    0 4px 30px rgba(0,0,0,0.7),
+                    0 0 1px rgba(170,255,0,0.2);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+    }
+    .fui-panel::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 12px; height: 12px;
+        border-top: 2px solid var(--fui-primary);
+        border-left: 2px solid var(--fui-primary);
+        pointer-events: none;
+        z-index: 10;
+        animation: border-corner-glow 3s ease-in-out infinite;
+    }
+    .fui-panel::after {
+        content: '';
+        position: absolute;
+        bottom: 0; right: 0;
+        width: 12px; height: 12px;
+        border-bottom: 2px solid var(--fui-primary);
+        border-right: 2px solid var(--fui-primary);
+        pointer-events: none;
+        z-index: 10;
+        animation: border-corner-glow 3s ease-in-out infinite 1.5s;
+    }
+
+    /* ── FUI Panel with scan sweep ── */
+    .fui-panel-scan {
+        position: relative;
+        overflow: hidden;
+    }
+    .fui-panel-scan::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(170,255,0,0.06), transparent);
+        animation: scanbar 4s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    /* ── FUI Button ── */
+    .fui-btn {
+        position: relative;
+        overflow: hidden;
+        background: rgba(170,255,0,0.04);
+        border: 1px solid var(--fui-border);
+        color: var(--fui-text-dim);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        outline: none;
+    }
+    .fui-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(170,255,0,0.12), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.4s ease;
+    }
+    .fui-btn:hover {
+        background: rgba(170,255,0,0.10);
+        border-color: var(--fui-primary);
+        color: var(--fui-primary);
+        box-shadow: var(--fui-primary-glow);
+    }
+    .fui-btn:hover::before {
+        transform: translateX(100%);
+    }
+    .fui-btn:active {
+        transform: scale(0.97);
+        box-shadow: 0 0 25px rgba(170,255,0,0.4);
+    }
+    .fui-btn.active {
+        background: rgba(170,255,0,0.18);
+        border-color: var(--fui-primary);
+        color: var(--fui-primary);
+        box-shadow: var(--fui-primary-glow), var(--fui-primary-inset);
+    }
+    .fui-btn.active::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0;
+        width: 2px; height: 100%;
+        background: var(--fui-primary);
+        box-shadow: 0 0 8px var(--fui-primary);
+    }
+
+    /* ── FUI Value: big numeric readout ── */
+    .fui-value {
+        font-family: "Orbitron", sans-serif;
+        color: var(--fui-primary);
+        text-shadow: 0 0 15px rgba(170,255,0,0.7);
+        animation: count-up 0.5s ease-out both, data-tick 3s ease-in-out infinite 2s;
+    }
+    .fui-value-sm {
+        font-family: "Share Tech Mono", monospace;
+        color: var(--fui-text);
+        font-size: 11px;
+    }
+
+    /* ── FUI Label ── */
+    .fui-label {
+        font-size: 9px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--fui-text-muted);
+        font-family: "Share Tech Mono", monospace;
+    }
+
+    /* ── FUI Data Row (like reference "CONTROLLER TEST" rows) ── */
+    .fui-data-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-bottom: 1px solid rgba(170,255,0,0.06);
+        position: relative;
+        transition: background 0.2s;
+    }
+    .fui-data-row:hover {
+        background: rgba(170,255,0,0.04);
+    }
+    .fui-data-row::before {
+        content: '+';
+        color: var(--fui-primary);
+        font-size: 12px;
+        opacity: 0.5;
+        flex-shrink: 0;
+    }
+
+    /* ── FUI Bar: animated fill bar ── */
+    .fui-bar-track {
+        height: 2px;
+        background: rgba(170,255,0,0.10);
+        position: relative;
+        overflow: hidden;
+        flex: 1;
+    }
+    .fui-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, rgba(170,255,0,0.5), var(--fui-primary));
+        box-shadow: 0 0 8px rgba(170,255,0,0.6);
+        animation: sweep-right 1.5s ease-out both;
+    }
+
+    /* ── FUI Toggle Switch ── */
+    .fui-toggle {
+        width: 32px; height: 16px;
+        border: 1px solid var(--fui-border);
+        background: rgba(0,0,0,0.6);
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .fui-toggle.on {
+        border-color: var(--fui-primary);
+        background: rgba(170,255,0,0.12);
+        box-shadow: 0 0 8px rgba(170,255,0,0.3);
+    }
+    .fui-toggle-knob {
+        position: absolute;
+        top: 2px;
+        width: 10px; height: 10px;
+        background: var(--fui-primary);
+        transition: left 0.2s;
+        box-shadow: 0 0 6px rgba(170,255,0,0.8);
+    }
+
+    /* ── FUI Segmented Control ── */
+    .fui-segment {
+        display: flex;
+        border: 1px solid var(--fui-border);
+        overflow: hidden;
+        background: rgba(0,0,0,0.7);
+    }
+    .fui-segment-btn {
+        padding: 4px 12px;
+        font-size: 9px;
+        font-family: "Share Tech Mono", monospace;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--fui-text-dim);
+        border-right: 1px solid var(--fui-border-dim);
+        cursor: pointer;
+        transition: all 0.2s;
+        background: transparent;
+        border-top: none; border-bottom: none; border-left: none;
+        outline: none;
+    }
+    .fui-segment-btn:last-child { border-right: none; }
+    .fui-segment-btn.active {
+        background: rgba(170,255,0,0.18);
+        color: var(--fui-primary);
+        box-shadow: inset 0 -2px 0 var(--fui-primary);
+    }
+    .fui-segment-btn:hover:not(.active) {
+        background: rgba(170,255,0,0.06);
+        color: var(--fui-text);
+    }
+
+    /* ── STATUS dot ── */
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .status-dot.active  { background: var(--fui-primary); animation: blink 1.2s infinite; box-shadow: 0 0 6px var(--fui-primary); }
+    .status-dot.alert   { background: var(--fui-alert);   animation: blink 0.6s infinite; box-shadow: 0 0 6px var(--fui-alert); }
+    .status-dot.loading { background: var(--fui-warn);    animation: blink 0.5s infinite; }
+
+    /* ── Legacy classes kept for compat ── */
+    .glass-tactical {
+        background: rgba(4,6,8,0.82);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--fui-border);
+        box-shadow: var(--fui-primary-inset), 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .hud-title {
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-style: italic;
+        color: var(--fui-text-dim);
+        font-family: "Share Tech Mono", monospace;
+    }
+    .data-value {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--fui-primary);
+        font-family: "Share Tech Mono", monospace;
+        text-shadow: 0 0 10px rgba(170,255,0,0.5);
+    }
+
+    /* Cyber attack panel (updated colors) */
+    .cyber-stats-panel {
+        position: fixed;
+        top: 220px; right: 16px;
+        width: 240px; padding: 12px;
+        background: rgba(0,0,0,0.90);
+        border: 1px solid rgba(255,26,26,0.4);
+        z-index: 1000;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 11px; color: #ff4444;
+        box-shadow: inset 0 0 20px rgba(255,0,0,0.05), 0 0 30px rgba(0,0,0,0.8);
+    }
+    .cyber-stats-panel::before {
+        content: '';
+        position: absolute; top: 0; left: 0;
+        width: 10px; height: 10px;
+        border-top: 2px solid rgba(255,26,26,0.8);
+        border-left: 2px solid rgba(255,26,26,0.8);
+    }
+    .cyber-stats-panel::after {
+        content: '';
+        position: absolute; bottom: 0; right: 0;
+        width: 10px; height: 10px;
+        border-bottom: 2px solid rgba(255,26,26,0.8);
+        border-right: 2px solid rgba(255,26,26,0.8);
+    }
+    .cyber-stats-panel .panel-label {
+        font-size: 10px; letter-spacing: 2px;
+        color: #ff0000; margin-bottom: 10px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .cyber-total { text-align: center; margin: 8px 0 12px; }
+    .cyber-total .total-num   { font-size: 36px; color: #ff1a1a; display: block; font-weight: bold; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 20px rgba(255,0,0,0.6); }
+    .cyber-total .total-label { font-size: 9px; letter-spacing: 3px; color: rgba(255,0,0,0.6); }
+    .cyber-section-title { color: rgba(255,100,100,0.5); font-size: 9px; letter-spacing: 2px; margin: 8px 0 4px; }
+    .cyber-stat-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; font-size: 10px; }
+    .type-bar   { height: 2px; min-width: 4px; border-radius: 1px; flex-shrink: 0; }
+    .type-label { color: #ff8888; flex: 1; overflow: hidden; text-overflow: ellipsis; }
+    .type-count { color: #ff4444; min-width: 20px; text-align: right; }
+    .source-name  { color: #ff8888; flex: 1; }
+    .source-count { color: rgba(255,100,100,0.6); font-size: 9px; }
+    .target-name  { color: #ff6666; flex: 1; }
+    .target-count { color: rgba(255,100,100,0.6); font-size: 9px; }
+    .cyber-popup {
+        position: fixed; bottom: 120px; left: 50%;
+        transform: translateX(-50%); width: 320px;
+        padding: 14px 16px; background: rgba(0,0,0,0.95);
+        z-index: 2000; font-family: 'Share Tech Mono', monospace; font-size: 11px;
+        border: 1px solid rgba(255,26,26,0.4);
+    }
+    .popup-close { position: absolute; top: 8px; right: 10px; background: none; border: none; color: rgba(255,100,100,0.6); cursor: pointer; font-size: 14px; }
+    .popup-close:hover { color: #ff4444; }
+    .popup-title { font-size: 14px; letter-spacing: 2px; font-weight: bold; margin-bottom: 10px; }
+    .popup-row { display: flex; gap: 10px; margin-bottom: 4px; }
+    .popup-label { color: rgba(255,100,100,0.5); min-width: 65px; font-size: 10px; letter-spacing: 1px; }
+    .popup-val { color: #ffcccc; font-size: 10px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* HUD panel corner brackets (legacy) */
+    .hud-panel { position: relative; }
+    .hud-panel::before, .hud-panel::after {
+        content: ''; position: absolute;
+        width: 8px; height: 8px;
+        border-color: var(--fui-primary); border-style: solid;
+        opacity: 0.6;
+    }
+    .hud-panel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .hud-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════ */
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--fui-bg);
+    color: var(--fui-primary);
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════
+   GLOBAL FUI GRID BACKGROUND
+   ═══════════════════════════════════════════════════ */
+.fui-grid-bg {
+    background-image:
+        linear-gradient(rgba(170,255,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(170,255,0,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCANLINE EFFECT (updated for FUI)
+   ═══════════════════════════════════════════════════ */
+.scanline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ═══════════════════════════════════════════════════
+   CRT FLICKER
+   ═══════════════════════════════════════════════════ */
+@keyframes flicker {
+    0%   { opacity: 0.99; }
+    5%   { opacity: 0.97; }
+    10%  { opacity: 0.94; }
+    15%  { opacity: 0.97; }
+    20%  { opacity: 0.99; }
+    25%  { opacity: 0.97; }
+    30%  { opacity: 0.94; }
+    100% { opacity: 0.99; }
+}
+.crt-flicker { animation: flicker 0.2s infinite; }
+
+/* ═══════════════════════════════════════════════════
+   CRT ACTIVE MODE
+   ═══════════════════════════════════════════════════ */
+body.crt-active::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.07) 0px, rgba(0,0,0,0.07) 1px,
+        transparent 1px, transparent 4px
+    );
+    pointer-events: none; z-index: 9999;
+    animation: crtScroll 10s linear infinite;
+}
+@keyframes crtScroll {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100vh; }
+}
+
+/* ═══════════════════════════════════════════════════
+   CESIUM / WEBGL FIXES
+   ═══════════════════════════════════════════════════ */
+.cesium-viewer, .cesium-viewer-wrapper, .cesium-widget, .cesium-widget canvas {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #000 !important;
+}
+.cesium-viewer-bottom { display: none !important; }
+
+/* ═══════════════════════════════════════════════════
+   UTILITY ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+@keyframes glitch {
+    0%  { clip-path: inset(10% 0 80% 0); transform: translate(-3px); }
+    33% { clip-path: inset(60% 0 20% 0); transform: translate(3px); }
+    66% { clip-path: inset(30% 0 50% 0); transform: translate(-2px); }
+    100%{ clip-path: inset(0); transform: translate(0); }
+}
+.glitch-text { animation: glitch 0.2s steps(1) 4; }
+
+@keyframes ping-ring {
+    0%   { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+.animate-ping-ring { animation: ping-ring 1.5s ease-out infinite; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb { background: rgba(170,255,0,0.25); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(170,255,0,0.4); }
+
+/* ═══════════════════════════════════════════════════
+   MATRIX RAIN (Boot Screen)
+   ═══════════════════════════════════════════════════ */
+.matrix-col {
+    position: absolute;
+    top: 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(170,255,0,0.6);
+    white-space: nowrap;
+    animation: matrix-rain linear infinite;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   FUI DEPTH PANELS (3D tilt via CSS perspective)
+   ═══════════════════════════════════════════════════ */
+.depth-panel-left {
+    transform: perspective(1200px) rotateY(2deg) rotateX(-1deg);
+    transform-origin: left center;
+}
+.depth-panel-right {
+    transform: perspective(1200px) rotateY(-2deg) rotateX(-1deg);
+    transform-origin: right center;
+}
+.depth-panel-bottom {
+    transform: perspective(1200px) rotateX(3deg);
+    transform-origin: bottom center;
+}
+
+/* ═══════════════════════════════════════════════════
+   ANIMATED ACCENT BARS
+   ═══════════════════════════════════════════════════ */
+.accent-bar {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--fui-primary), transparent);
+    box-shadow: 0 0 10px rgba(170,255,0,0.5);
+    animation: scanbar 4s ease-in-out infinite;
+}
+
+/* FUI big number reveal */
+@keyframes num-reveal {
+    from { filter: blur(4px); opacity: 0; letter-spacing: 0.5em; }
+    to   { filter: blur(0);   opacity: 1; letter-spacing: normal; }
+}
+.num-reveal { animation: num-reveal 0.8s ease-out both; }
+
+/* ═══════════════════════════════════════════════════
+   GLOBAL KEYFRAMES — referenced via inline style attrs
+   ═══════════════════════════════════════════════════ */
+
+@keyframes radar-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+@keyframes flicker-fast {
+    0%   { opacity: 0.98; }
+    5%   { opacity: 0.92; }
+    10%  { opacity: 0.97; }
+    20%  { opacity: 0.99; }
+    30%  { opacity: 0.94; }
+    50%  { opacity: 0.97; }
+    100% { opacity: 0.99; }
+}
+@keyframes pulse-soft-global {
+    0%, 100% { opacity: 0.8; }
+    50%       { opacity: 0.35; }
+}
+@keyframes border-corner-glow {
+    0%, 100% { border-color: rgba(170,255,0,0.4); }
+    50%       { border-color: rgba(170,255,0,0.9); }
+}
+@keyframes count-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+@keyframes scanbar {
+    0%   { transform: translateX(-100%); opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateX(100%); opacity: 0; }
+}
+@keyframes scanbar-v {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+@keyframes sweep-right {
+    from { width: 0%; }
+    to   { width: var(--bar-width, 70%); }
+}
+@keyframes pulse-soft {
+    0%, 100% { opacity: 0.8; }
+    50%       { opacity: 0.35; }
+}
+@keyframes matrix-rain {
+    0%   { transform: translateY(-100%); opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(1000%); opacity: 0; }
+}
